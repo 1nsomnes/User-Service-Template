@@ -1,0 +1,17 @@
+Flask
+python-dotenv
+Flask-Cors
+requests
+gunicorn
+Flask-Login
+Flask-Session
+flask-restful
+uwsgi
+boto3
+
+pymongo
+flask_pymongo
+PyJWT
+bcrypt
+flask-wtf
+email_validator

@@ -1,0 +1,23 @@
+
+{
+  "ASU": {
+    "emailExtensions": [
+      "@asu.edu"
+    ]
+  },
+  "UW": {
+    "emailExtensions": [
+      "@uw.edu"
+    ]
+  },
+  "Lehigh": {
+    "emailExtensions": [
+      "@lehigh.edu"
+    ]
+  },
+  "MSU": {
+    "emailExtensions": [
+      "@montana.edu"
+    ]
+  }
+}
