@@ -1,6 +1,6 @@
 from flask_restful import Resource, current_app
 import jwt
-from flask_pymongo import ObjectId
+from bson import ObjectId
 
 class VerifyAccount(Resource):
     def get(self, verificationToken):

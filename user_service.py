@@ -13,21 +13,20 @@ from Endpoints.isValidToken import isValidToken
 load_dotenv()
 
 # Configuration
-SECRET_KEY_TOKENIZATION = ""
-SECRET_KEY_VERIFICATION = ""
+SECRET_KEY_TOKENIZATION = os.environ.get('SECRET_KEY_TOKENIZATION')
+SECRET_KEY_VERIFICATION = os.environ.get('SECRET_KEY_VERIFICATION')
 
 # Initialize Flask App
 app = Flask(__name__)
 
 # Retrieve MongoDB credentials from environment variables
-MONGO_USERNAME = os.environ.get('MONGO_USERNAME', 'default_username')
-MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', 'default_password')
-MONGO_HOST = ""
+MONGO_USERNAME = os.environ.get('MONGO_USERNAME', 'root')
+MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', 'example')
 MONGO_DBNAME = "userDatabase"
+MONGO_HOST = "localhost:27017"
 
 # todo: uncomment below for atlas connection
-#mongo_uri = f"mongodb+srv://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DBNAME}?retryWrites=true&w=majority"
-mongo_uri = os.getenv("LOCAL_MONGO_URI")
+mongo_uri = f"mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DBNAME}"
 
 app.config["MONGO_URI"] = mongo_uri
 app.config["EMAIL_SERVICE_URL"] = "http://localhost:5001" # "http://email-service"  # Assuming internal communication
@@ -53,4 +52,4 @@ api.add_resource(isValidToken, '/isValidToken/<string:verificationToken>')
 
 if __name__ == '__main__':
     # 0.0.0.0 allows users on the local network to access the API
-    app.run(host= '0.0.0.0', port=5000)
+    app.run(host= '0.0.0.0', port=5001)
