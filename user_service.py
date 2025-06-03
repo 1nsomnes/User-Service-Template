@@ -26,7 +26,7 @@ MONGO_DBNAME = "userDatabase"
 MONGO_HOST = "localhost:27017"
 
 # todo: uncomment below for atlas connection
-mongo_uri = f"mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DBNAME}"
+mongo_uri = f"mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DBNAME}?authSource=admin"
 
 app.config["MONGO_URI"] = mongo_uri
 app.config["EMAIL_SERVICE_URL"] = "http://localhost:5001" # "http://email-service"  # Assuming internal communication
