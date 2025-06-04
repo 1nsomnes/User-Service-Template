@@ -32,7 +32,6 @@ def email_exists(email):
     return False
 
 class CreateAccountForm(FlaskForm):
-    school = StringField('School', validators=[DataRequired()])
     username = StringField('Username', validators=[
          DataRequired(), 
          Length(min=4, max=25, message="Username must be between 4 and 25 characters"),
@@ -57,18 +56,7 @@ class CreateAccount(Resource):
         if email_exists(form.email.data):
             return 'Email already exists', 400
             
-        # Access whitelistedSchools and create a variable with a JSON object
-        with open(os.getcwd() + '/Endpoints/whitelistedSchools.json', 'r') as f:
-            whitelisted_schools = json.load(f)
-
-        # Check if the school inputed through the form is a key in the whitelistedjson
-        if form.school.data not in whitelisted_schools:
-            return 'School not whitelisted', 400
-
-        # Check if the email domain matches one of the "emailExtensions" in the json object
-        email_domain = '@' + form.email.data.split('@')[1]
-        if email_domain not in whitelisted_schools[form.school.data]['emailExtensions']:
-            return 'Email domain not allowed for this school', 400
+        #TODO: possible add email verification option
 
         # hash the password
         hashed = hash_password(form.password.data)
@@ -77,7 +65,6 @@ class CreateAccount(Resource):
 
         try:
             newUser = mongo.db.users.insert_one({
-                "school": form.school.data,
                 "username": form.username.data,
                 "email": form.email.data,
                 "password": hashed,
@@ -95,7 +82,8 @@ class CreateAccount(Resource):
         }
         
         token = jwt.encode(payload, current_app.config["SECRET_KEY_VERIFICATION"], algorithm='HS256')
-
+        
+        #TODO: EMAIL SERVICE!? 
         response = requests.post(current_app.config["EMAIL_SERVICE_URL"] + "/api/sendEmail", json={
             "subject": "WTM: Verify your account",
             "html": "<html><h1>Welcome to What's the Move</h1><p> We are so glad you decided to join! Please verify your account <a href='http://whatsthemoveasu.com/verifyAccount/" + str(token) + "'>here</a></p></html>",
