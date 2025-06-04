@@ -6,7 +6,7 @@ import datetime
 class isValidToken(Resource):
     def get(self, verificationToken):
         try:
-            payload = jwt.decode(verificationToken, current_app.config["SECRET_KEY_TOKENIZATION"], algorithms=['HS256'])
+            payload = jwt.decode(verificationToken, current_app.config["SECRET_KEY_SESSION"], algorithms=['HS256'])
 
             if payload['exp'] < datetime.datetime.utcnow().timestamp():
                 print("token expired")

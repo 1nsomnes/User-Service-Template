@@ -26,15 +26,20 @@ class SignIn(Resource):
             return first_field_error, 400
 
         mongo = current_app.extensions['mongo']
-        SECRET_KEY = current_app.config["SECRET_KEY_TOKENIZATION"]
+        SECRET_KEY = current_app.config["SECRET_KEY_SESSION"]
 
         collection = mongo.db.users
         user = collection.find_one({"email": form.email.data})
 
         if user and verifyPassword(form.password.data, user["password"]):
-            #check if verified
+           
+            #TODO: ADD THE CODE BELOW TO ONLY ALLOW VERIFIED ACCOUNTS TO LOGIN
+            '''
+            #check if verified 
             if not user["isVerified"]:
                 return "Account not verified.", 403
+
+            '''
 
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30),  # Token expiration time

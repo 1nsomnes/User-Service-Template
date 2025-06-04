@@ -55,8 +55,6 @@ class CreateAccount(Resource):
             return 'Username already exists', 400
         if email_exists(form.email.data):
             return 'Email already exists', 400
-            
-        #TODO: possible add email verification option
 
         # hash the password
         hashed = hash_password(form.password.data)
@@ -73,7 +71,8 @@ class CreateAccount(Resource):
         except Exception as e:
             print(e)
             return "Error creating account. Try again later.", 500
-
+        
+        '''
         #calculates expiration through iat and exp fields
         payload = {
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),  # Token expiration time
@@ -83,16 +82,14 @@ class CreateAccount(Resource):
         
         token = jwt.encode(payload, current_app.config["SECRET_KEY_VERIFICATION"], algorithm='HS256')
         
-        #TODO: EMAIL SERVICE!? 
-        response = requests.post(current_app.config["EMAIL_SERVICE_URL"] + "/api/sendEmail", json={
-            "subject": "WTM: Verify your account",
-            "html": "<html><h1>Welcome to What's the Move</h1><p> We are so glad you decided to join! Please verify your account <a href='http://whatsthemoveasu.com/verifyAccount/" + str(token) + "'>here</a></p></html>",
-            "recipients": [form.email.data]
-        })
-
-        if response.status_code == 500:
-            mongo.db.users.delete_one({"_id": newUser.inserted_id})
-            return "Error sending verification email. Try again later.", 500
+        base = "localhost:5001"
+        verificationUrl = base + "/api/verifyAccount/" + str(token)
+        '''
         
-        return "Successfully sent email!", 200
+        #TODO: ADD EMAIL VERIFICAITON (maybe ig)
+        # Firstly, uncomment the triple quote code above.
+        # Use the verification URL to send an email to your user, when that link is clicked.
+        # This API will change the "verified," field to "True," given it is clicked in time.
+
+        return "Successfully created account!", 200
     

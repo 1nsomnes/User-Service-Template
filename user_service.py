@@ -13,7 +13,7 @@ from Endpoints.isValidToken import isValidToken
 load_dotenv()
 
 # Configuration
-SECRET_KEY_TOKENIZATION = os.environ.get('SECRET_KEY_TOKENIZATION')
+SECRET_KEY_SESSION = os.environ.get('SECRET_KEY_SESSION')
 SECRET_KEY_VERIFICATION = os.environ.get('SECRET_KEY_VERIFICATION')
 
 # Initialize Flask App
@@ -29,10 +29,9 @@ MONGO_HOST = "localhost:27017"
 mongo_uri = f"mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DBNAME}?authSource=admin"
 
 app.config["MONGO_URI"] = mongo_uri
-app.config["EMAIL_SERVICE_URL"] = "http://localhost:5001" # "http://email-service"  # Assuming internal communication
 app.config['WTF_CSRF_ENABLED'] = False
 
-app.config["SECRET_KEY_TOKENIZATION"] = SECRET_KEY_TOKENIZATION
+app.config["SECRET_KEY_TOKENIZATION"] = SECRET_KEY_SESSION
 app.config["SECRET_KEY_VERIFICATION"] = SECRET_KEY_VERIFICATION
 
 app.config['ENV'] = 'development'
