@@ -6,8 +6,8 @@ from wtforms import StringField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 import jwt, requests, datetime, os, json
 
+#TODO: REVIST SENDING ERRORS
 def hash_password(password):
-        #TODO: add some pepper 
         salt = bcrypt.gensalt()
         return bcrypt.hashpw(password.encode('utf-8'), salt)
 

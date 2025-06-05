@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 from Endpoints.CreateAccount import CreateAccount
 from Endpoints.verifyAccount import VerifyAccount
-from Endpoints.isValidToken import isValidToken
+from Endpoints.secureEndpoint import SecureEndpoint
 
 load_dotenv()
 
@@ -25,13 +25,12 @@ MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', 'example')
 MONGO_DBNAME = "userDatabase"
 MONGO_HOST = "localhost:27017"
 
-# todo: uncomment below for atlas connection
 mongo_uri = f"mongodb://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DBNAME}?authSource=admin"
 
 app.config["MONGO_URI"] = mongo_uri
 app.config['WTF_CSRF_ENABLED'] = False
 
-app.config["SECRET_KEY_TOKENIZATION"] = SECRET_KEY_SESSION
+app.config["SECRET_KEY_SESSION"] = SECRET_KEY_SESSION
 app.config["SECRET_KEY_VERIFICATION"] = SECRET_KEY_VERIFICATION
 
 app.config['ENV'] = 'development'
@@ -47,7 +46,7 @@ app.extensions['mongo'] = mongo
 api.add_resource(CreateAccount, '/createAccount')
 api.add_resource(SignIn, '/signIn')
 api.add_resource(VerifyAccount, '/verifyAccount/<string:verificationToken>')
-api.add_resource(isValidToken, '/isValidToken/<string:verificationToken>')
+api.add_resource(SecureEndpoint, '/secureEndpoint')
 
 if __name__ == '__main__':
     # 0.0.0.0 allows users on the local network to access the API
