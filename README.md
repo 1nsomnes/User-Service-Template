@@ -41,7 +41,7 @@ Allows you to sign in and returns you a session which will expire in 30 days (th
 ```bash
 curl localhost:5001/api/signIn -X Post \
   -H "application/x-www-form-urlencoded" \
-  -d "username=my_user&password=Password1"
+  -d "email=test@test.com&password=Password1"
 ```
 
 ### Verify Account
